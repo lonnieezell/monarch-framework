@@ -1,5 +1,5 @@
 {
-    "name": "monarch/framework",
+    "name": "monarchphp/framework",
     "type": "project",
     "description": "A back-to-basics framework for the modern web.",
     "license": "MIT",
