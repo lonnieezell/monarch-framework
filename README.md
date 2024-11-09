@@ -1,4 +1,4 @@
-<img src="./_docs/assets/logo.png" style="height: 100px; float: left; margin-right: 2rem;">
+<img src="./docs/assets/logo.png" style="height: 100px; float: left; margin-right: 2rem;">
 
 # Monarch Web Framework
 
