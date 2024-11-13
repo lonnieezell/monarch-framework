@@ -83,11 +83,7 @@ class Info
 
     public function displayRequest(): string
     {
-        $headers = [];
-
-        foreach(Request::instance()->headers() as $header) {
-            $headers[$header->name] = $header->value;
-        }
+        $headers = Request::instance()->headers();
 
         return $this->renderSection(group: 'Monarch: Request Headers', data: $headers);
     }
