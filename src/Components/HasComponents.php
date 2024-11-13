@@ -10,7 +10,7 @@ trait HasComponents
     private function parseComponents(string $html): string
     {
         $paths = config('app.componentPaths', []);
-        $paths = array_map(fn ($path) => ROOTPATH . $path, $paths);
+        $paths = array_map(fn ($path) => substr($path, 0, 1) === '/' ? $path : ROOTPATH . $path, $paths);
 
         $components = ComponentManager::instance()
             ->forComponentDirectories($paths);
