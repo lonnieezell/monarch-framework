@@ -19,12 +19,9 @@
     </include>
   </source>
   <php>
-        <server name="ENVIRONMENT" value="testing"/>
-        <server name="DB_DRIVER" value="sqlite"/>
-        <server name="DB_DATABASE" value=":memory:"/>
-        <!-- <server name="DB_HOST" value=""/>
-        <server name="DB_PORT" value=""/>
-        <server name="DB_USER" value=""/>
-        <server name="DB_PASSWORD" value=""/> -->
+        <env name="ENVIRONMENT" value="testing"/>
+        <env name="MAIL_VIEW_PATH" value="./tests/_support/mail"/>
+        <!-- <env name="DB_DRIVER" value="sqlite"/>
+        <env name="DB_DATABASE" value=":memory:"/> -->
     </php>
 </phpunit>

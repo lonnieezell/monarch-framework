@@ -3,6 +3,7 @@
 namespace Monarch\Components;
 
 use Exception;
+use Monarch\Concerns\IsSingleton;
 use Monarch\Helpers\Files;
 use RuntimeException;
 
@@ -11,19 +12,11 @@ use RuntimeException;
  */
 class ComponentManager
 {
+    use IsSingleton;
+
     protected $components = [];
-    private static self $instance;
     private $discovered = false;
     protected array $componentDirectories = [];
-
-    public static function instance(): self
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
 
     /**
      * Registers one or more component directories to search for components in.

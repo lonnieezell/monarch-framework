@@ -8,6 +8,7 @@ use Laminas\Mail\Transport\InMemory as InMemoryTransport;
 use Monarch\View;
 
 beforeEach(function () {
+    Mail::reset();
     $this->mail = Mail::show('testView');
 });
 afterEach(function () {
@@ -38,25 +39,22 @@ test('message returns message instance', function () {
 });
 
 test('render returns html', function () {
-    $viewMock = mock(View::class);
-    $viewMock->shouldReceive('display')->andReturn('<p>Test</p>');
-    View::setInstance($viewMock);
-
     $html = $this->mail->render();
     expect($html)->toContain('<p>Test</p>');
 });
 
 test('send sets body and encoding', function () {
-    $viewMock = mock(View::class);
-    $viewMock->shouldReceive('display')->andReturn('<p>Test</p>');
-    View::setInstance($viewMock);
+    // $viewMock = mock(View::class);
+    // $viewMock->shouldReceive('display')->andReturn('<p>Test</p>');
+    // View::setInstance($viewMock);
 
     $this->mail->useTransport('memory');
     $this->mail->send();
 
     $message = $this->mail->currentTransport()->getLastMessage();
 
-    expect($message->getBody())->toBe('<p>Test</p>');
+    expect($message->getBody())->toBe('<p>Test</p>
+');
     expect($message->getEncoding())->toBe('UTF-8');
 });
 

@@ -48,11 +48,7 @@ class View
 
     public static function factory(?string $basePath=null)
     {
-        if (self::$instance === null) {
-            self::$instance = new self($basePath);
-        }
-
-        return self::$instance;
+        return Factory::get(static::class, $basePath);
     }
 
     public function __construct(?string $basePath)

@@ -129,7 +129,7 @@ class Mail
      */
     public function render(): string
     {
-        $renderer = View::factory(APPPATH .'mail');
+        $renderer = View::factory(config('mail.view_path'));
 
         $html = $renderer->display($this->viewName, $this->data);
 
