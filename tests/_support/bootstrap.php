@@ -9,8 +9,8 @@ define('DEBUG', true);
 define('START_TIME', microtime(true));
 define('ENVIRONMENT', 'test');
 define('ROOTPATH', realpath(__DIR__ .'/../../') .'/');
-define('APPPATH', realpath(ROOTPATH.'app') .'/');
 define('TESTPATH', realpath(ROOTPATH.'tests') .'/');
+define('APPPATH', realpath(TESTPATH.'_support') .'/');
 define('MONARCHPATH', realpath(ROOTPATH.'src') .'/');
 define('WRITEPATH', realpath(ROOTPATH.'writable') .'/');
 

@@ -33,8 +33,8 @@ if (! function_exists('config')) {
     function config(?string $key=null): mixed
     {
         return $key === null
-            ? Config::factory()
-            : Config::factory()->get($key);
+            ? Config::instance()
+            : Config::instance()->get($key);
     }
 }
 

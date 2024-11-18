@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Monarch;
 
+use Monarch\Concerns\IsSingleton;
 use Monarch\Helpers\Arr;
 use RuntimeException;
 
@@ -16,23 +17,14 @@ use RuntimeException;
  */
 class Config
 {
+    use IsSingleton;
+
     /**
      * Provides a local cache for config files
      * that we've already read.
      * @var array
      */
     protected $files = [];
-
-    public static $instance;
-
-    public static function factory()
-    {
-        if (self::$instance === null) {
-            self::$instance = new self();
-        }
-
-        return self::$instance;
-    }
 
     /**
      * Grab a config value from a file at app/config.
@@ -51,13 +43,7 @@ class Config
         $file = array_shift($keys);
 
         if (! isset($this->files[$file])) {
-            $path = ROOTPATH ."config/{$file}.php";
-
-            if (! file_exists($path)) {
-                throw new RuntimeException('Config file not found: '. $path);
-            }
-
-            $this->files[$file] = include $path;
+            $this->files[$file] = $this->readFile($file);
         }
 
         if (count($keys) === 0) {
@@ -72,24 +58,29 @@ class Config
      */
     public function mock(string $file, array $data)
     {
-        // If the first key is numeric, we're replacing the entire file.
-        if (is_numeric(array_key_first($data))) {
-            $this->files[$file] = $data;
-            return;
+        $this->files[$file] = $data;
+    }
+
+    /**
+     * Reads the contents of the config file and returns it.
+     * It first checks the src/../config directory and pulls the
+     * default contents from there. It then checks the app's
+     * config directory and merges the two together, letting the
+     * app's config file override any defaults.
+     */
+    private function readFile(string $file): array
+    {
+        $defaultPath = MONARCHPATH . "../config/{$file}.php";
+        $appPath = APPPATH . "config/{$file}.php";
+
+        // If neither file exists, throw an exception
+        if (! file_exists($defaultPath) && ! file_exists($appPath)) {
+            throw new RuntimeException('Config file not found: '. $file);
         }
 
-        // Otherwise we're just replacing the given key(s)
-        // in the original config file.
-        if (! isset($this->files[$file])) {
-            $path = ROOTPATH ."config/{$file}.php";
+        $default = file_exists($defaultPath) ? include $defaultPath : [];
+        $app = file_exists($appPath) ? include $appPath : [];
 
-            if (! file_exists($path)) {
-                throw new RuntimeException('Config file not found: '. $path);
-            }
-
-            $this->files[$file] = include $path;
-        }
-
-        $this->files[$file] = array_merge($this->files[$file], $data);
+        return array_merge($default, $app);
     }
 }

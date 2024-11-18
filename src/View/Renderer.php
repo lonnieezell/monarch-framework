@@ -38,7 +38,7 @@ class Renderer
     public function render(string $routeFile): ?string
     {
         $rendererName = null;
-        $availableRenderers = Config::factory()->get('routes.renderers');
+        $availableRenderers = config('routes.renderers');
         foreach ($availableRenderers as $ext => $handler) {
             if (str_ends_with($routeFile, (string) $ext)) {
                 $rendererName = $handler;
